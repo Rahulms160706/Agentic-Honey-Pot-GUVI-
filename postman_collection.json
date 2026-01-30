@@ -1,0 +1,380 @@
+{
+  "info": {
+    "name": "Agentic Honey-Pot API",
+    "description": "Complete API collection for testing the Agentic Honey-Pot System",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "api_key",
+      "value": "YOUR_SECRET_API_KEY_12345",
+      "type": "string"
+    },
+    {
+      "key": "session_id",
+      "value": "test-session-{{$timestamp}}",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health Checks",
+      "item": [
+        {
+          "name": "Root Endpoint",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/",
+              "host": ["{{base_url}}"],
+              "path": [""]
+            }
+          }
+        },
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": ["{{base_url}}"],
+              "path": ["health"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Scam Detection",
+      "item": [
+        {
+          "name": "Bank Account Block Scam - Message 1",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-api-key",
+                "value": "{{api_key}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sessionId\": \"{{session_id}}\",\n  \"message\": {\n    \"sender\": \"scammer\",\n    \"text\": \"URGENT! Your bank account will be blocked in 2 hours due to KYC update pending.\",\n    \"timestamp\": \"{{$isoTimestamp}}\"\n  },\n  \"conversationHistory\": [],\n  \"metadata\": {\n    \"channel\": \"SMS\",\n    \"language\": \"English\",\n    \"locale\": \"IN\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/message",
+              "host": ["{{base_url}}"],
+              "path": ["api", "message"]
+            }
+          }
+        },
+        {
+          "name": "Bank Account Block Scam - Message 2",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-api-key",
+                "value": "{{api_key}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sessionId\": \"{{session_id}}\",\n  \"message\": {\n    \"sender\": \"scammer\",\n    \"text\": \"We are from SBI security team. Share your account number to verify and unblock.\",\n    \"timestamp\": \"{{$isoTimestamp}}\"\n  },\n  \"conversationHistory\": [\n    {\n      \"sender\": \"scammer\",\n      \"text\": \"URGENT! Your bank account will be blocked in 2 hours due to KYC update pending.\",\n      \"timestamp\": \"2026-01-29T10:00:00Z\"\n    },\n    {\n      \"sender\": \"user\",\n      \"text\": \"Why is my account being blocked?\",\n      \"timestamp\": \"2026-01-29T10:01:00Z\"\n    }\n  ],\n  \"metadata\": {\n    \"channel\": \"SMS\",\n    \"language\": \"English\",\n    \"locale\": \"IN\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/message",
+              "host": ["{{base_url}}"],
+              "path": ["api", "message"]
+            }
+          }
+        },
+        {
+          "name": "UPI Fraud - Complete Scenario",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-api-key",
+                "value": "{{api_key}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sessionId\": \"upi-scam-{{$timestamp}}\",\n  \"message\": {\n    \"sender\": \"scammer\",\n    \"text\": \"Your UPI payment of Rs.50,000 has failed. To get refund, send Rs.1 to verify@paytm\",\n    \"timestamp\": \"{{$isoTimestamp}}\"\n  },\n  \"conversationHistory\": [],\n  \"metadata\": {\n    \"channel\": \"WhatsApp\",\n    \"language\": \"English\",\n    \"locale\": \"IN\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/message",
+              "host": ["{{base_url}}"],
+              "path": ["api", "message"]
+            }
+          }
+        },
+        {
+          "name": "Phishing Link Scam",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-api-key",
+                "value": "{{api_key}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sessionId\": \"phishing-{{$timestamp}}\",\n  \"message\": {\n    \"sender\": \"scammer\",\n    \"text\": \"Congratulations! Won Rs.1 Lakh. Claim now: http://fake-lottery.com/claim?id=12345\",\n    \"timestamp\": \"{{$isoTimestamp}}\"\n  },\n  \"conversationHistory\": [],\n  \"metadata\": {\n    \"channel\": \"SMS\",\n    \"language\": \"English\",\n    \"locale\": \"IN\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/message",
+              "host": ["{{base_url}}"],
+              "path": ["api", "message"]
+            }
+          }
+        },
+        {
+          "name": "OTP Fraud",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-api-key",
+                "value": "{{api_key}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sessionId\": \"otp-fraud-{{$timestamp}}\",\n  \"message\": {\n    \"sender\": \"scammer\",\n    \"text\": \"Account verification needed. Share the OTP sent to your phone immediately.\",\n    \"timestamp\": \"{{$isoTimestamp}}\"\n  },\n  \"conversationHistory\": [],\n  \"metadata\": {\n    \"channel\": \"SMS\",\n    \"language\": \"English\",\n    \"locale\": \"IN\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/message",
+              "host": ["{{base_url}}"],
+              "path": ["api", "message"]
+            }
+          }
+        },
+        {
+          "name": "Tax Refund Scam",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-api-key",
+                "value": "{{api_key}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sessionId\": \"tax-refund-{{$timestamp}}\",\n  \"message\": {\n    \"sender\": \"scammer\",\n    \"text\": \"Income Tax Department: Refund of Rs.15,420 pending. Call +919876543210 with PAN details.\",\n    \"timestamp\": \"{{$isoTimestamp}}\"\n  },\n  \"conversationHistory\": [],\n  \"metadata\": {\n    \"channel\": \"Email\",\n    \"language\": \"English\",\n    \"locale\": \"IN\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/message",
+              "host": ["{{base_url}}"],
+              "path": ["api", "message"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Legitimate Messages",
+      "item": [
+        {
+          "name": "Normal Conversation",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-api-key",
+                "value": "{{api_key}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sessionId\": \"legit-{{$timestamp}}\",\n  \"message\": {\n    \"sender\": \"scammer\",\n    \"text\": \"Hi, how are you? Want to grab coffee later?\",\n    \"timestamp\": \"{{$isoTimestamp}}\"\n  },\n  \"conversationHistory\": [],\n  \"metadata\": {\n    \"channel\": \"WhatsApp\",\n    \"language\": \"English\",\n    \"locale\": \"IN\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/message",
+              "host": ["{{base_url}}"],
+              "path": ["api", "message"]
+            }
+          }
+        },
+        {
+          "name": "Work Related",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-api-key",
+                "value": "{{api_key}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sessionId\": \"work-{{$timestamp}}\",\n  \"message\": {\n    \"sender\": \"scammer\",\n    \"text\": \"Can you send me the project report by EOD?\",\n    \"timestamp\": \"{{$isoTimestamp}}\"\n  },\n  \"conversationHistory\": [],\n  \"metadata\": {\n    \"channel\": \"Email\",\n    \"language\": \"English\",\n    \"locale\": \"IN\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/message",
+              "host": ["{{base_url}}"],
+              "path": ["api", "message"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Session Management",
+      "item": [
+        {
+          "name": "Get Session Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{api_key}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/session/{{session_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "session", "{{session_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Delete Session",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{api_key}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/session/{{session_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "session", "{{session_id}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Error Cases",
+      "item": [
+        {
+          "name": "Invalid API Key",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-api-key",
+                "value": "INVALID_KEY"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sessionId\": \"error-test\",\n  \"message\": {\n    \"sender\": \"scammer\",\n    \"text\": \"Test message\",\n    \"timestamp\": \"{{$isoTimestamp}}\"\n  },\n  \"conversationHistory\": [],\n  \"metadata\": {}\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/message",
+              "host": ["{{base_url}}"],
+              "path": ["api", "message"]
+            }
+          }
+        },
+        {
+          "name": "Missing API Key",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sessionId\": \"error-test\",\n  \"message\": {\n    \"sender\": \"scammer\",\n    \"text\": \"Test message\",\n    \"timestamp\": \"{{$isoTimestamp}}\"\n  },\n  \"conversationHistory\": [],\n  \"metadata\": {}\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/message",
+              "host": ["{{base_url}}"],
+              "path": ["api", "message"]
+            }
+          }
+        },
+        {
+          "name": "Invalid JSON",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-api-key",
+                "value": "{{api_key}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{invalid json}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/message",
+              "host": ["{{base_url}}"],
+              "path": ["api", "message"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
