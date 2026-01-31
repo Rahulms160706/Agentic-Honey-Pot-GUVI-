@@ -2,9 +2,6 @@
 Full integration test for intelligence extraction
 """
 import asyncio
-import sys
-sys.path.insert(0, 'C:\\Users\\rahul\\OneDrive\\Desktop\\2nd Year\\GUVI\\Agentic-Honey-Pot-GUVI')
-
 from intelligence_extractor import IntelligenceExtractor
 
 async def test_extraction():
